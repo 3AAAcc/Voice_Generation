@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voice Clone Studio</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="scene-backdrop" aria-hidden="true">
+    <div class="studio-depth"></div>
+    <div class="aurora-sheet aurora-sheet-a"></div>
+    <div class="aurora-sheet aurora-sheet-b"></div>
+    <div class="wave-horizon"></div>
+    <div class="console-lines"></div>
+    <div class="grain"></div>
+  </div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" role="img">
+            <path d="M5 18h3l2-8 4 16 4-20 4 12h5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <div>
+          <strong>Voice Clone</strong>
+          <small>CosyVoice3 Studio</small>
+        </div>
+      </div>
+      <nav class="nav-list" aria-label="功能导航">
+        <button class="nav-item active" data-panel="fixed">语音合成</button>
+        <button class="nav-item" data-panel="clone">音色克隆</button>
+        <button class="nav-item" data-panel="results">生成结果</button>
+      </nav>
+    </aside>
+
+    <main class="workspace">
+      <header class="workspace-header">
+        <div>
+          <span class="eyebrow">AI Audio Workbench</span>
+          <h1>语音合成与音色克隆演示系统</h1>
+          <p>输入自定义内容，选择音色、情绪和语速，生成可播放的 WAV 音频。</p>
+        </div>
+        <div class="header-console" aria-label="系统状态">
+          <span class="status-pill" id="preset-status">加载预设中</span>
+          <div class="wave-meter" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel active" id="panel-fixed">
+        <div class="panel-heading">
+          <h2>语音合成</h2>
+          <p>选择内置参考音色和控制参数；可选固定句子快速填入，也可以直接编辑合成内容。</p>
+        </div>
+        <form class="form-grid" id="fixed-form">
+          <label>
+            <span>内置音色</span>
+            <select id="fixed-voice"></select>
+          </label>
+          <label>
+            <span>固定句子</span>
+            <select id="fixed-sentence"></select>
+          </label>
+          <label class="wide">
+            <span>说话内容</span>
+            <div class="token-toolbar" data-target="fixed-text" aria-label="说话内容控制符快捷按钮"></div>
+            <textarea id="fixed-text" rows="4" placeholder="请输入要合成的内容"></textarea>
+          </label>
+          <label>
+            <span>情绪</span>
+            <select id="fixed-emotion"></select>
+          </label>
+          <label>
+            <span>语速</span>
+            <select id="fixed-speed"></select>
+          </label>
+          <button class="primary-action" type="submit">生成音频</button>
+        </form>
+        <div class="message" id="fixed-message"></div>
+        <div class="audio-card" id="fixed-output"></div>
+      </section>
+
+      <section class="panel" id="panel-clone">
+        <div class="panel-heading">
+          <h2>音色克隆</h2>
+          <p>上传 3 到 30 秒的人声参考音频，常见格式会自动转换；参考文本可留空。</p>
+        </div>
+        <form class="form-grid clone-grid" id="clone-form">
+          <label class="wide">
+            <span>参考音频对应文本（可选，填写后克隆更稳定）</span>
+            <input id="clone-prompt-text" type="text" placeholder="不知道音频内容可以留空">
+          </label>
+          <label class="wide">
+            <span>要合成的新文本</span>
+            <div class="token-toolbar" data-target="clone-text" aria-label="克隆文本控制符快捷按钮"></div>
+            <textarea id="clone-text" rows="4">你好，这是使用你提供的参考音频生成的克隆声音。</textarea>
+          </label>
+          <label>
+            <span>参考音频</span>
+            <input id="clone-audio" type="file" accept="audio/*">
+          </label>
+          <label>
+            <span>情绪</span>
+            <select id="clone-emotion"></select>
+          </label>
+          <label>
+            <span>语速</span>
+            <input id="clone-speed" type="number" min="0.5" max="2" step="0.1" value="1">
+          </label>
+          <button class="primary-action" type="submit">生成克隆音频</button>
+        </form>
+        <div class="message" id="clone-message"></div>
+        <div class="audio-card" id="clone-output"></div>
+      </section>
+
+      <section class="panel" id="panel-results">
+        <div class="panel-heading">
+          <h2>生成结果</h2>
+          <p>当前浏览器会话里的生成记录会显示在这里。</p>
+        </div>
+        <div class="result-list" id="result-list">
+          <p class="empty">还没有生成结果。</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
