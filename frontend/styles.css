@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@400;500;600;700&display=swap");
 
 :root {
-  --bg: #070812;
-  --surface: rgba(15, 18, 39, 0.82);
-  --surface-strong: rgba(22, 27, 54, 0.94);
+  --bg: #05060f;
+  --surface: rgba(15, 18, 39, 0.65);
+  --surface-strong: rgba(22, 27, 54, 0.85);
   --ink: #f8fafc;
-  --muted: #aab6cb;
-  --line: rgba(148, 163, 184, 0.22);
-  --line-hot: rgba(34, 211, 238, 0.58);
+  --muted: #94a3b8;
+  --line: rgba(148, 163, 184, 0.15);
+  --line-hot: rgba(34, 211, 238, 0.8);
   --soft: rgba(10, 14, 31, 0.72);
   --accent: #22d3ee;
   --accent-dark: #0891b2;
@@ -15,7 +15,8 @@
   --orange: #f97316;
   --success: #4ade80;
   --danger: #fb7185;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  --glow-accent: 0 0 20px rgba(34, 211, 238, 0.4);
 }
 
 * {
@@ -27,8 +28,7 @@ body {
   min-height: 100vh;
   font-family: "Fira Sans", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
   color: var(--ink);
-  background:
-    linear-gradient(135deg, #040615 0%, #0d1026 38%, #070816 72%, #02030a 100%);
+  background: radial-gradient(circle at 50% -20%, #1a1f3c 0%, #05060f 60%, #000000 100%);
   overflow-x: hidden;
 }
 
@@ -39,6 +39,9 @@ textarea {
   font: inherit;
 }
 
+/* =========================
+   炫酷背景层
+========================= */
 .scene-backdrop {
   position: fixed;
   inset: 0;
@@ -51,29 +54,29 @@ textarea {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(125deg, rgba(34, 211, 238, 0.18), transparent 24%),
-    linear-gradient(235deg, rgba(139, 92, 246, 0.2), transparent 32%),
-    linear-gradient(180deg, rgba(249, 115, 22, 0.1), transparent 54%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.028) 0 1px, transparent 1px 118px),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 92px);
+    linear-gradient(125deg, rgba(34, 211, 238, 0.12), transparent 30%),
+    linear-gradient(235deg, rgba(139, 92, 246, 0.15), transparent 40%),
+    linear-gradient(180deg, rgba(249, 115, 22, 0.08), transparent 60%);
 }
 
+/* 无缝流动的 3D 网格 */
 .studio-depth::before {
   content: "";
   position: absolute;
-  left: -8%;
-  right: -8%;
-  bottom: -18%;
-  height: 58%;
+  left: -20%;
+  right: -20%;
+  bottom: -20%;
+  height: 80%;
   background:
-    linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.26), transparent),
-    repeating-linear-gradient(90deg, transparent 0 72px, rgba(34, 211, 238, 0.13) 72px 74px),
-    repeating-linear-gradient(0deg, transparent 0 36px, rgba(148, 163, 184, 0.09) 36px 37px);
-  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
-  opacity: 0.42;
-  transform: perspective(760px) rotateX(64deg);
+    linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.4), transparent),
+    repeating-linear-gradient(90deg, transparent 0 72px, rgba(34, 211, 238, 0.2) 72px 74px),
+    repeating-linear-gradient(0deg, transparent 0 36px, rgba(139, 92, 246, 0.3) 36px 38px);
+  clip-path: polygon(15% 0, 85% 0, 100% 100%, 0 100%);
+  opacity: 0.6;
+  transform: perspective(600px) rotateX(65deg);
   transform-origin: bottom;
-  filter: drop-shadow(0 -18px 26px rgba(34, 211, 238, 0.08));
+  filter: drop-shadow(0 -20px 30px rgba(34, 211, 238, 0.2));
+  animation: grid-forward 3s linear infinite;
 }
 
 .studio-depth::after {
@@ -81,207 +84,260 @@ textarea {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(6, 7, 19, 0.94), transparent 18%, transparent 78%, rgba(6, 7, 19, 0.9)),
-    linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.72));
+    linear-gradient(90deg, rgba(5, 6, 15, 0.98), transparent 25%, transparent 75%, rgba(5, 6, 15, 0.98)),
+    linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.95));
 }
 
+/* 色彩流转的极光 */
 .aurora-sheet {
   position: absolute;
-  left: -4%;
-  right: -4%;
-  height: 28vh;
-  border-radius: 36% 64% 44% 56%;
-  filter: blur(26px);
-  opacity: 0.58;
+  left: -10%;
+  right: -10%;
+  height: 35vh;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.6;
   transform-origin: center;
-  background:
-    linear-gradient(100deg, transparent, rgba(34, 211, 238, 0.22), rgba(139, 92, 246, 0.2), rgba(249, 115, 22, 0.16), transparent);
+  background: linear-gradient(100deg, transparent, rgba(34, 211, 238, 0.4), rgba(139, 92, 246, 0.4), rgba(249, 115, 22, 0.3), transparent);
   mix-blend-mode: screen;
-  animation: drift-sheet 10s ease-in-out infinite alternate;
+  animation: aurora-flow 12s ease-in-out infinite alternate;
 }
 
 .aurora-sheet-a {
-  top: 8%;
-  transform: skewY(-9deg) rotate(-5deg);
+  top: -5%;
+  transform: skewY(-10deg) rotate(-5deg);
 }
 
 .aurora-sheet-b {
-  bottom: 4%;
-  opacity: 0.36;
-  transform: skewY(8deg) rotate(4deg);
-  animation-delay: 1.8s;
+  bottom: 10%;
+  opacity: 0.4;
+  transform: skewY(10deg) rotate(5deg);
+  animation-delay: -5s;
 }
 
+/* 呼吸光效地平线 */
 .wave-horizon {
   position: absolute;
   left: -10%;
   right: -10%;
-  top: 56%;
-  height: 190px;
-  opacity: 0.52;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 14px, rgba(34, 211, 238, 0.28) 14px 16px, transparent 16px 28px, rgba(249, 115, 22, 0.2) 28px 31px, transparent 31px 52px);
+  top: 50%;
+  height: 200px;
+  opacity: 0.6;
+  background: repeating-linear-gradient(90deg, transparent 0 14px, rgba(34, 211, 238, 0.4) 14px 16px, transparent 16px 28px, rgba(249, 115, 22, 0.3) 28px 31px, transparent 31px 52px);
   clip-path: polygon(0 60%, 5% 42%, 10% 58%, 15% 35%, 20% 63%, 25% 47%, 30% 70%, 35% 38%, 40% 62%, 45% 44%, 50% 68%, 55% 40%, 60% 58%, 65% 36%, 70% 64%, 75% 46%, 80% 72%, 85% 42%, 90% 60%, 95% 48%, 100% 66%, 100% 100%, 0 100%);
-  filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.24));
-  animation: wave-drift 7s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 30px rgba(34, 211, 238, 0.5));
+  animation: wave-drift 8s ease-in-out infinite alternate;
 }
 
 .console-lines {
   position: absolute;
   inset: 0;
-  opacity: 0.26;
+  opacity: 0.15;
   background:
-    linear-gradient(120deg, transparent 0 45%, rgba(34, 211, 238, 0.16) 45% 45.2%, transparent 45.2%),
-    linear-gradient(120deg, transparent 0 62%, rgba(249, 115, 22, 0.12) 62% 62.15%, transparent 62.15%),
-    repeating-linear-gradient(180deg, transparent 0 46px, rgba(148, 163, 184, 0.08) 46px 47px);
+    linear-gradient(120deg, transparent 0 45%, rgba(34, 211, 238, 0.5) 45% 45.2%, transparent 45.2%),
+    linear-gradient(120deg, transparent 0 62%, rgba(249, 115, 22, 0.4) 62% 62.15%, transparent 62.15%);
+  animation: scan-lines 10s linear infinite;
 }
 
 .grain {
   position: absolute;
   inset: 0;
-  opacity: 0.08;
-  background-image: repeating-radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.34) 0 1px, transparent 1px 4px);
-  mix-blend-mode: screen;
+  opacity: 0.2;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mix-blend-mode: overlay;
+  animation: twinkle 4s ease-in-out infinite alternate;
 }
 
+/* =========================
+   主体布局与面板
+========================= */
 .app-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 22px;
-  padding: 18px;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .sidebar {
   position: sticky;
-  top: 18px;
-  height: calc(100vh - 36px);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 22px 16px;
+  top: 24px;
+  height: calc(100vh - 48px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 28px 20px;
   color: #fff;
-  background: linear-gradient(180deg, rgba(15, 18, 39, 0.96), rgba(8, 10, 24, 0.86));
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
+  background: linear-gradient(160deg, rgba(20, 24, 45, 0.6), rgba(8, 10, 24, 0.8));
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px);
+  z-index: 10;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 28px;
-  padding: 6px;
+  gap: 16px;
+  margin-bottom: 36px;
+  padding: 8px;
 }
 
 .brand-mark {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
-  color: var(--accent);
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(139, 92, 246, 0.2));
-  border: 1px solid rgba(34, 211, 238, 0.42);
-  box-shadow: 0 0 28px rgba(34, 211, 238, 0.22);
+  color: #fff;
+  background: linear-gradient(135deg, #22d3ee, #8b5cf6);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.5);
+  animation: float-logo 4s ease-in-out infinite;
 }
 
 .brand-mark svg {
-  width: 28px;
-  height: 28px;
-}
-
-.brand strong,
-.brand small {
-  display: block;
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
 .brand strong {
-  letter-spacing: 0;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  background: linear-gradient(to right, #fff, #aab6cb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .brand small {
-  margin-top: 3px;
-  color: var(--muted);
+  margin-top: 4px;
+  color: var(--accent);
+  font-family: "Fira Code", monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 11px;
 }
 
 .nav-list {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .nav-item {
-  height: 46px;
+  position: relative;
+  height: 50px;
   border: 1px solid transparent;
-  border-radius: 12px;
-  padding: 0 13px;
+  border-radius: 14px;
+  padding: 0 18px;
   text-align: left;
-  color: #d8e2ef;
-  background: transparent;
+  color: #aab6cb;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.02);
   cursor: pointer;
-  transition: background 200ms ease-out, border-color 200ms ease-out, color 200ms ease-out, box-shadow 200ms ease-out;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  border-radius: 4px;
 }
 
 .nav-item.active,
 .nav-item:hover {
   color: #fff;
-  border-color: rgba(34, 211, 238, 0.36);
-  background: linear-gradient(90deg, rgba(34, 211, 238, 0.16), rgba(139, 92, 246, 0.1));
-  box-shadow: inset 0 0 24px rgba(34, 211, 238, 0.08);
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0.15), rgba(139, 92, 246, 0.05));
+  border-color: rgba(34, 211, 238, 0.2);
+  box-shadow: inset 0 0 20px rgba(34, 211, 238, 0.05);
+  transform: translateX(4px);
+}
+
+.nav-item.active::before {
+  transform: scaleY(0.6);
 }
 
 .workspace {
   min-width: 0;
-  padding: 18px 12px 28px 0;
+  padding: 0 0 32px 0;
 }
 
 .workspace-header {
+  position: relative;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 18px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(15, 18, 39, 0.76), rgba(20, 24, 50, 0.54));
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(15, 18, 39, 0.7), rgba(20, 24, 50, 0.4));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.workspace-header::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+  transform: translate(30%, -30%);
+  pointer-events: none;
 }
 
 .eyebrow {
   display: inline-flex;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   color: var(--accent);
   font-family: "Fira Code", monospace;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
 }
 
 .workspace-header h1 {
-  margin: 0 0 8px;
-  font-size: clamp(26px, 3vw, 44px);
-  letter-spacing: 0;
-  line-height: 1.08;
-  text-shadow: 0 0 22px rgba(34, 211, 238, 0.16);
+  margin: 0 0 12px;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(to right, #fff, #bce4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(34, 211, 238, 0.2);
 }
 
 .workspace-header p,
 .panel-heading p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 15px;
 }
 
 .header-console {
-  min-width: 270px;
+  min-width: 280px;
   display: grid;
   align-content: center;
-  gap: 14px;
-  padding: 16px;
-  border: 1px solid rgba(34, 211, 238, 0.22);
-  border-radius: 16px;
-  background: rgba(7, 8, 18, 0.46);
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 20px;
+  background: rgba(4, 6, 15, 0.6);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+  position: relative;
 }
 
 .status-pill {
@@ -289,18 +345,20 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 12px;
+  padding: 6px 16px;
   border-radius: 999px;
-  background: rgba(34, 211, 238, 0.12);
-  color: #bff7ff;
-  border: 1px solid rgba(34, 211, 238, 0.28);
+  background: rgba(34, 211, 238, 0.1);
+  color: #fff;
+  border: 1px solid var(--accent);
   white-space: nowrap;
   font-family: "Fira Code", monospace;
-  font-size: 12px;
+  font-size: 13px;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+  animation: pulse-border 2s infinite alternate;
 }
 
 .wave-meter {
-  height: 54px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -308,55 +366,63 @@ textarea {
 }
 
 .wave-meter span {
-  width: 5px;
-  height: 18px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, var(--accent), var(--orange));
-  box-shadow: 0 0 18px rgba(34, 211, 238, 0.36);
-  animation: meter 1.4s ease-in-out infinite;
+  width: 6px;
+  height: 10px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #22d3ee, #8b5cf6);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+  animation: neon-meter 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-.wave-meter span:nth-child(2n) {
-  animation-delay: 120ms;
-}
+.wave-meter span:nth-child(2n) { animation-delay: 0.1s; background: linear-gradient(180deg, #f97316, #fb7185); }
+.wave-meter span:nth-child(3n) { animation-delay: 0.2s; }
+.wave-meter span:nth-child(4n) { animation-delay: 0.3s; background: linear-gradient(180deg, #4ade80, #22d3ee); }
+.wave-meter span:nth-child(5n) { animation-delay: 0.4s; }
 
-.wave-meter span:nth-child(3n) {
-  animation-delay: 240ms;
-}
-
-.wave-meter span:nth-child(4n) {
-  animation-delay: 360ms;
-}
-
+/* 面板动画与样式 */
 .panel {
   display: none;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 24px;
-  background: linear-gradient(180deg, rgba(15, 18, 39, 0.9), rgba(9, 12, 28, 0.86));
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 32px;
+  background: linear-gradient(180deg, rgba(15, 18, 39, 0.75), rgba(9, 12, 28, 0.85));
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(24px);
+  position: relative;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.5), transparent);
+  opacity: 0.5;
 }
 
 .panel.active {
   display: block;
-  animation: panel-in 240ms ease-out both;
+  animation: panel-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .panel-heading {
-  margin-bottom: 22px;
+  margin-bottom: 28px;
 }
 
 .panel-heading h2 {
-  margin: 0 0 7px;
-  font-size: 24px;
-  letter-spacing: 0;
+  margin: 0 0 10px;
+  font-size: 26px;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
+/* =========================
+   表单与输入框
+========================= */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(220px, 1fr));
-  gap: 16px;
+  gap: 20px;
   align-items: end;
 }
 
@@ -366,10 +432,11 @@ textarea {
 
 label {
   display: grid;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 600;
+  gap: 10px;
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 label.wide {
@@ -380,32 +447,36 @@ select,
 input,
 textarea {
   width: 100%;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  border-radius: 12px;
-  color: var(--ink);
-  background: rgba(4, 8, 20, 0.64);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4);
   outline: none;
-  transition: border-color 200ms ease-out, box-shadow 200ms ease-out, background 200ms ease-out;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 select,
 input {
-  height: 44px;
-  padding: 0 12px;
+  height: 48px;
+  padding: 0 16px;
 }
 
 textarea {
-  min-height: 116px;
-  padding: 13px;
+  min-height: 120px;
+  padding: 16px;
   resize: vertical;
+  line-height: 1.6;
 }
 
 select:focus,
 input:focus,
 textarea:focus {
-  border-color: var(--line-hot);
-  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.12);
-  background: rgba(5, 10, 25, 0.88);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  background: rgba(10, 15, 35, 0.8);
+  transform: translateY(-2px);
 }
 
 select option {
@@ -414,120 +485,211 @@ select option {
 }
 
 input[type="file"] {
-  padding: 9px 12px;
+  padding: 10px 16px;
+  color: var(--muted);
+}
+input[type="file"]::file-selector-button {
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+input[type="file"]::file-selector-button:hover {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
 }
 
 .token-toolbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  border-radius: 14px;
-  background: rgba(4, 8, 20, 0.46);
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .token-button {
-  min-height: 32px;
-  border: 1px solid rgba(34, 211, 238, 0.22);
-  border-radius: 999px;
-  padding: 0 11px;
-  color: #dffaff;
-  background: rgba(34, 211, 238, 0.08);
+  min-height: 34px;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: #e2e8f0;
+  background: rgba(139, 92, 246, 0.1);
   cursor: pointer;
   font-family: "Fira Code", monospace;
-  font-size: 12px;
-  transition: background 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out;
+  font-size: 13px;
+  transition: all 0.2s ease;
 }
 
 .token-button:hover,
 .token-button:focus-visible {
-  border-color: rgba(249, 115, 22, 0.72);
-  color: #fff7ed;
-  background: rgba(249, 115, 22, 0.14);
-  box-shadow: 0 0 22px rgba(249, 115, 22, 0.18);
+  border-color: var(--accent);
+  color: #fff;
+  background: rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+  transform: translateY(-2px);
 }
 
+/* =========================
+   主操作按钮（科幻能量流）
+========================= */
 .primary-action {
-  height: 44px;
-  border: 0;
-  border-radius: 12px;
-  padding: 0 18px;
-  color: #08111f;
-  background: linear-gradient(135deg, #22d3ee, #f97316);
+  position: relative;
+  height: 52px;
+  border: none;
+  border-radius: 14px;
+  padding: 0 24px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
   cursor: pointer;
-  font-weight: 800;
-  box-shadow: 0 12px 32px rgba(34, 211, 238, 0.18);
-  transition: filter 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out;
+  overflow: hidden;
+  background: linear-gradient(90deg, #0891b2, #8b5cf6, #22d3ee, #0891b2);
+  background-size: 300% 100%;
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+  transition: all 0.3s ease;
+  animation: btn-gradient 4s linear infinite;
+  z-index: 1;
+}
+
+/* 扫光效果 */
+.primary-action::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-20deg);
+  z-index: -1;
+  transition: 0.5s;
 }
 
 .primary-action:hover {
-  filter: brightness(1.08);
-  box-shadow: 0 16px 42px rgba(249, 115, 22, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(34, 211, 238, 0.5);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.primary-action:hover::after {
+  left: 200%;
+  transition: 0.7s ease-in-out;
 }
 
 .primary-action:active {
   transform: translateY(1px);
+  box-shadow: 0 5px 15px rgba(34, 211, 238, 0.3);
 }
 
 .primary-action:disabled {
   cursor: not-allowed;
-  opacity: 0.58;
-  filter: grayscale(0.35);
+  background: #334155;
+  box-shadow: none;
+  color: #94a3b8;
+  animation: none;
 }
+.primary-action:disabled::after { display: none; }
 
 .message {
   min-height: 24px;
   margin-top: 16px;
   font-size: 14px;
   font-family: "Fira Code", monospace;
+  text-align: center;
+  border-radius: 8px;
+  padding: 8px;
 }
 
 .message.error {
-  color: var(--danger);
+  color: #ffe4e6;
+  background: rgba(251, 113, 133, 0.2);
+  border: 1px solid var(--danger);
+  box-shadow: 0 0 15px rgba(251, 113, 133, 0.2);
 }
 
 .message.success {
-  color: var(--success);
+  color: #dcfce7;
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid var(--success);
+  box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
 }
 
+/* =========================
+   卡片与播放器组件
+========================= */
 .audio-card,
 .result-item {
-  margin-top: 16px;
-  padding: 16px;
-  border: 1px solid rgba(34, 211, 238, 0.24);
-  border-radius: 16px;
-  background:
-    linear-gradient(135deg, rgba(34, 211, 238, 0.08), transparent 34%),
-    linear-gradient(245deg, rgba(249, 115, 22, 0.07), transparent 40%),
-    rgba(4, 8, 20, 0.5);
-  box-shadow: inset 0 0 28px rgba(34, 211, 238, 0.045);
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.05), rgba(139, 92, 246, 0.1));
+  box-shadow: inset 0 0 30px rgba(34, 211, 238, 0.05), 0 10px 20px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.audio-card:hover, .result-item:hover {
+  transform: translateY(-4px);
+  box-shadow: inset 0 0 30px rgba(34, 211, 238, 0.1), 0 15px 30px rgba(0,0,0,0.4);
+  border-color: rgba(34, 211, 238, 0.5);
 }
 
 .audio-card:empty {
   display: none;
 }
 
+.compare-output { margin-top: 20px; }
+.compare-output:empty { display: none; }
+
+.compare-grid output {
+  justify-self: end;
+  color: var(--accent);
+  font-family: "Fira Code", monospace;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.compare-grid input[type="range"] {
+  height: 6px;
+  padding: 0;
+  accent-color: var(--accent);
+  border-radius: 3px;
+  appearance: none;
+  background: rgba(255,255,255,0.1);
+}
+.compare-grid input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  cursor: pointer;
+}
+
+.compare-grid-output {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.compare-model { min-width: 0; }
+
 .custom-player {
   position: relative;
   display: grid;
-  gap: 14px;
+  gap: 16px;
   overflow: hidden;
-  padding: 14px;
-  border: 1px solid rgba(148, 163, 184, 0.18);
+  padding: 18px;
+  border: 1px solid rgba(34, 211, 238, 0.2);
   border-radius: 16px;
-  background:
-    linear-gradient(90deg, rgba(34, 211, 238, 0.1), rgba(249, 115, 22, 0.06)),
-    rgba(3, 7, 18, 0.72);
-}
-
-.custom-player::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(90deg, transparent 0 20px, rgba(255, 255, 255, 0.035) 20px 21px);
-  opacity: 0.22;
-  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
 }
 
 .player-topline {
@@ -535,179 +697,151 @@ input[type="file"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: 16px;
 }
 
 .player-topline strong {
-  color: #e0faff;
+  color: #fff;
+  font-size: 15px;
+  text-shadow: 0 0 8px rgba(255,255,255,0.3);
 }
 
 .player-state {
-  padding: 4px 9px;
-  border: 1px solid rgba(34, 211, 238, 0.28);
+  padding: 4px 12px;
+  border: 1px solid var(--accent);
   border-radius: 999px;
-  color: #bff7ff;
-  background: rgba(34, 211, 238, 0.08);
+  color: #fff;
+  background: rgba(34, 211, 238, 0.15);
   font-family: "Fira Code", monospace;
-  font-size: 11px;
+  font-size: 12px;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
 }
 
 .player-controls {
   position: relative;
-  min-height: 58px;
+  min-height: 60px;
   display: grid;
-  grid-template-columns: 44px 48px 1fr 48px;
+  grid-template-columns: 48px 50px 1fr 50px;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border: 1px solid rgba(34, 211, 238, 0.2);
+  gap: 16px;
+  padding: 12px 16px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 999px;
-  background:
-    linear-gradient(90deg, rgba(34, 211, 238, 0.08), rgba(249, 115, 22, 0.06)),
-    rgba(6, 10, 25, 0.76);
-  box-shadow: inset 0 0 24px rgba(34, 211, 238, 0.06);
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0.05), rgba(139, 92, 246, 0.05)), rgba(10, 15, 30, 0.8);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
+/* 生成中的炫酷骨架屏 */
 .generation-card {
   position: relative;
   overflow: hidden;
   display: grid;
-  gap: 16px;
-  padding: 18px;
-  border: 1px solid rgba(34, 211, 238, 0.32);
-  border-radius: 16px;
-  background:
-    linear-gradient(135deg, rgba(34, 211, 238, 0.12), rgba(139, 92, 246, 0.08) 38%, rgba(249, 115, 22, 0.1)),
-    rgba(3, 7, 18, 0.82);
-  box-shadow:
-    inset 0 0 34px rgba(34, 211, 238, 0.07),
-    0 18px 46px rgba(0, 0, 0, 0.22);
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(139, 92, 246, 0.1)), rgba(5, 10, 20, 0.9);
+  box-shadow: inset 0 0 40px rgba(34, 211, 238, 0.1), 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .generation-card::before {
   content: "";
   position: absolute;
-  inset: -20% -45%;
-  background: linear-gradient(110deg, transparent 32%, rgba(255, 255, 255, 0.12) 48%, transparent 64%);
-  animation: shimmer-pass 1.9s ease-in-out infinite;
+  inset: -50%;
+  background: conic-gradient(from 0deg, transparent 70%, rgba(34, 211, 238, 0.3) 100%);
+  animation: spin-scan 3s linear infinite;
+}
+.generation-card::after {
+  content: ""; position: absolute; inset: 2px; border-radius: 18px; background: inherit; z-index: 0;
 }
 
-.generation-copy {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 5px;
-}
+.generation-copy, .generation-visual, .generation-progress { position: relative; z-index: 1; }
 
-.generation-copy strong {
-  color: #e0faff;
-  font-size: 16px;
-}
-
-.generation-copy span {
-  color: var(--muted);
-  line-height: 1.5;
-}
+.generation-copy { display: grid; gap: 8px; text-align: center; }
+.generation-copy strong { color: #fff; font-size: 18px; text-shadow: 0 0 10px var(--accent); }
+.generation-copy span { color: var(--muted); font-size: 14px; }
 
 .generation-visual {
-  position: relative;
-  z-index: 1;
-  height: 54px;
+  height: 60px;
   display: flex;
   align-items: center;
-  gap: 7px;
+  justify-content: center;
+  gap: 8px;
 }
 
 .generation-visual span {
-  width: 9px;
-  height: 16px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #67e8f9, #f97316);
-  box-shadow: 0 0 20px rgba(34, 211, 238, 0.34);
-  animation: generation-bars 960ms ease-in-out infinite;
+  width: 6px;
+  height: 20px;
+  border-radius: 3px;
+  background: var(--accent);
+  box-shadow: 0 0 15px var(--accent);
+  animation: eq-bounce 0.8s ease-in-out infinite alternate;
 }
-
-.generation-visual span:nth-child(2n) {
-  animation-delay: 100ms;
-}
-
-.generation-visual span:nth-child(3n) {
-  animation-delay: 200ms;
-}
-
-.generation-visual span:nth-child(4n) {
-  animation-delay: 300ms;
-}
+.generation-visual span:nth-child(2n) { animation-delay: 0.2s; background: #8b5cf6; box-shadow: 0 0 15px #8b5cf6;}
+.generation-visual span:nth-child(3n) { animation-delay: 0.4s; }
+.generation-visual span:nth-child(4n) { animation-delay: 0.6s; background: #f97316; box-shadow: 0 0 15px #f97316;}
 
 .generation-progress {
-  position: relative;
-  z-index: 1;
-  height: 10px;
+  height: 8px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(148, 163, 184, 0.16);
-  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
 .generation-progress span {
   display: block;
-  width: 42%;
+  width: 30%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #22d3ee, #8b5cf6, #f97316);
-  box-shadow: 0 0 24px rgba(34, 211, 238, 0.42);
-  animation: progress-run 1.35s ease-in-out infinite;
+  background: linear-gradient(90deg, #22d3ee, #8b5cf6, #22d3ee);
+  background-size: 200% 100%;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
+  animation: progress-slide 1.5s ease-in-out infinite, btn-gradient 2s linear infinite;
 }
 
 .error-card {
-  border-color: rgba(251, 113, 133, 0.44);
-  background:
-    linear-gradient(135deg, rgba(251, 113, 133, 0.12), rgba(249, 115, 22, 0.08)),
-    rgba(35, 8, 18, 0.82);
+  border-color: var(--danger);
+  background: linear-gradient(135deg, rgba(251, 113, 133, 0.15), rgba(0,0,0,0.8));
 }
 
+/* 播放按钮 */
 .player-button {
-  width: 40px;
-  height: 40px;
+  width: 46px;
+  height: 46px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(34, 211, 238, 0.42);
+  border: none;
   border-radius: 50%;
-  color: #07111f;
-  background: linear-gradient(135deg, var(--accent), var(--orange));
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--violet));
   cursor: pointer;
-  box-shadow: 0 0 24px rgba(34, 211, 238, 0.18);
-  transition: filter 180ms ease-out, box-shadow 180ms ease-out;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .player-button:hover,
 .player-button:focus-visible {
-  filter: brightness(1.08);
-  box-shadow: 0 0 34px rgba(249, 115, 22, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.6);
 }
 
 .player-button svg {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   fill: currentColor;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
-.pause-icon {
-  display: none;
-}
-
-.custom-player.is-playing .play-icon {
-  display: none;
-}
-
-.custom-player.is-playing .pause-icon {
-  display: block;
-}
+.pause-icon { display: none; }
+.custom-player.is-playing .play-icon { display: none; }
+.custom-player.is-playing .pause-icon { display: block; }
+.custom-player.is-playing .player-button { animation: pulse-border 1.5s infinite alternate; }
 
 .player-time {
-  color: var(--muted);
+  color: #cbd5e1;
   font-family: "Fira Code", monospace;
-  font-size: 12px;
+  font-size: 13px;
   text-align: center;
 }
 
@@ -715,212 +849,151 @@ input[type="file"] {
   --progress: 0%;
   appearance: none;
   width: 100%;
-  height: 8px;
+  height: 6px;
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background:
-    linear-gradient(90deg, var(--accent), var(--orange)) 0 / var(--progress) 100% no-repeat,
-    rgba(148, 163, 184, 0.18);
+  background: linear-gradient(90deg, var(--accent), var(--violet)) 0 / var(--progress) 100% no-repeat, rgba(255, 255, 255, 0.1);
   cursor: pointer;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
 }
 
 .player-progress::-webkit-slider-thumb {
   appearance: none;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #07111f;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #fff;
   border-radius: 50%;
-  background: #f8fafc;
-  box-shadow: 0 0 18px rgba(34, 211, 238, 0.52);
+  background: var(--accent);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.8);
+  transition: transform 0.2s;
 }
+.player-progress::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
 .player-progress::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #07111f;
+  width: 18px; height: 18px;
+  border: 3px solid #fff;
   border-radius: 50%;
-  background: #f8fafc;
-  box-shadow: 0 0 18px rgba(34, 211, 238, 0.52);
+  background: var(--accent);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.8);
 }
 
-.custom-player audio {
-  display: none;
+.custom-player audio { display: none; }
+
+.result-list { display: grid; gap: 16px; }
+.result-item { margin-top: 0; }
+.result-item strong { display: block; margin-bottom: 8px; color: #fff; font-size: 16px; text-shadow: 0 0 8px rgba(255,255,255,0.2); }
+.empty { margin: 0; color: var(--muted); font-style: italic; text-align: center; padding: 20px; }
+
+
+/* =========================
+   科幻动画 Keyframes
+========================= */
+@keyframes grid-forward {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 76px; /* 36px * 2 for seamless loop */ }
 }
 
-.result-list {
-  display: grid;
-  gap: 12px;
+@keyframes aurora-flow {
+  0% { filter: blur(40px) hue-rotate(0deg); transform: scale(1) translate3d(-2%, -4%, 0) skewY(-10deg) rotate(-5deg); }
+  50% { filter: blur(50px) hue-rotate(45deg); transform: scale(1.1) translate3d(3%, 6%, 0) skewY(5deg) rotate(5deg); }
+  100% { filter: blur(40px) hue-rotate(90deg); transform: scale(1.05) translate3d(-1%, -2%, 0) skewY(-2deg) rotate(-1deg); }
 }
 
-.result-item {
-  margin-top: 0;
+@keyframes twinkle {
+  0% { opacity: 0.1; }
+  100% { opacity: 0.3; }
 }
 
-.result-item strong {
-  display: block;
-  margin-bottom: 6px;
-  color: #e0faff;
-}
-
-.empty {
-  margin: 0;
-  color: var(--muted);
-}
-
-@keyframes meter {
-  0%, 100% {
-    height: 14px;
-    opacity: 0.68;
-  }
-  50% {
-    height: 48px;
-    opacity: 1;
-  }
-}
-
-@keyframes drift-sheet {
-  from {
-    transform: translate3d(-2%, -4%, 0) skewY(-8deg) rotate(-4deg) scaleX(1);
-  }
-  to {
-    transform: translate3d(3%, 6%, 0) skewY(6deg) rotate(4deg) scaleX(1.04);
-  }
+@keyframes float-logo {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.5); }
 }
 
 @keyframes wave-drift {
-  from {
-    transform: translateX(-2%);
-  }
-  to {
-    transform: translateX(2%);
-  }
+  0% { transform: translateX(-3%); }
+  100% { transform: translateX(3%); }
 }
 
-@keyframes generation-bars {
-  0%, 100% {
-    height: 14px;
-    opacity: 0.62;
-  }
-  50% {
-    height: 50px;
-    opacity: 1;
-  }
-}
-
-@keyframes progress-run {
-  0% {
-    transform: translateX(-115%);
-  }
-  50% {
-    transform: translateX(60%);
-  }
-  100% {
-    transform: translateX(235%);
-  }
-}
-
-@keyframes shimmer-pass {
-  0% {
-    transform: translateX(-26%) skewX(-18deg);
-    opacity: 0;
-  }
-  35%, 70% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(34%) skewX(-18deg);
-    opacity: 0;
-  }
+@keyframes scan-lines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100vh; }
 }
 
 @keyframes panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
-@keyframes scan {
-  0%, 100% {
-    transform: translateY(-36%);
-  }
-  50% {
-    transform: translateY(36%);
-  }
+@keyframes btn-gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 10px rgba(34, 211, 238, 0.2); }
+  100% { box-shadow: 0 0 25px rgba(34, 211, 238, 0.6); }
+}
+
+@keyframes neon-meter {
+  0%, 100% { height: 10px; opacity: 0.5; }
+  50% { height: 35px; opacity: 1; filter: brightness(1.5); }
+}
+
+@keyframes spin-scan {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes eq-bounce {
+  0% { height: 10px; }
+  100% { height: 45px; }
+}
+
+@keyframes progress-slide {
+  0% { transform: translateX(-150%); }
+  100% { transform: translateX(350%); }
+}
+
+
+/* =========================
+   响应式适配
+========================= */
+@media (max-width: 1024px) {
+  .app-shell { grid-template-columns: 240px 1fr; gap: 20px; }
+  .workspace-header h1 { font-size: 28px; }
 }
 
 @media (max-width: 900px) {
-  .app-shell {
-    grid-template-columns: 1fr;
-    padding: 12px;
-  }
-
-  .sidebar {
-    position: relative;
-    top: 0;
-    height: auto;
-  }
-
-  .nav-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .workspace {
-    padding: 0 0 18px;
-  }
-
-  .workspace-header {
-    display: grid;
-  }
-
-  .header-console {
-    min-width: 0;
-  }
-
-  .form-grid,
-  .clone-grid {
-    grid-template-columns: 1fr;
-  }
+  .app-shell { grid-template-columns: 1fr; padding: 16px; }
+  .sidebar { position: relative; top: 0; height: auto; z-index: 2; margin-bottom: 20px; }
+  .nav-list { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .nav-item { text-align: center; padding: 0 10px; }
+  .nav-item::before { top: auto; bottom: 0; left: 0; right: 0; width: 100%; height: 3px; transform: scaleX(0); }
+  .nav-item.active, .nav-item:hover { transform: translateY(-3px); }
+  .nav-item.active::before { transform: scaleX(0.6); }
+  .workspace { padding: 0; }
+  .workspace-header { display: grid; padding: 24px; }
+  .header-console { min-width: 0; }
+  .form-grid, .clone-grid { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 520px) {
-  .nav-list {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 600px) {
+  .nav-list { grid-template-columns: repeat(2, 1fr); }
+  .compare-grid-output { grid-template-columns: 1fr; }
+}
 
-  .workspace-header,
-  .panel {
-    padding: 16px;
-    border-radius: 14px;
-  }
-
-  .brand-mark {
-    width: 42px;
-    height: 42px;
-  }
-
-  .player-controls {
-    grid-template-columns: 40px 1fr;
-    border-radius: 18px;
-  }
-
-  .player-time {
-    display: none;
-  }
+@media (max-width: 480px) {
+  .nav-list { grid-template-columns: 1fr; }
+  .workspace-header, .panel { padding: 20px; border-radius: 16px; }
+  .player-controls { grid-template-columns: 44px 1fr; border-radius: 20px; }
+  .player-time { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 1ms !important;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-    transition-duration: 1ms !important;
   }
 }

@@ -6,6 +6,7 @@ const state = {
 const panels = {
   fixed: document.querySelector("#panel-fixed"),
   clone: document.querySelector("#panel-clone"),
+  compare: document.querySelector("#panel-compare"),
   results: document.querySelector("#panel-results"),
 };
 
@@ -32,7 +33,12 @@ document.querySelectorAll(".nav-item").forEach((button) => {
 
 document.querySelector("#fixed-form").addEventListener("submit", submitFixed);
 document.querySelector("#clone-form").addEventListener("submit", submitClone);
+document.querySelector("#compare-form").addEventListener("submit", submitCompare);
 document.querySelector("#fixed-sentence").addEventListener("change", fillFixedTextFromSelectedSentence);
+document.querySelector("#compare-emotion").addEventListener("change", applyFastSpeech2EmotionPreset);
+["pitch", "energy", "duration"].forEach((name) => {
+  document.querySelector(`#compare-${name}`).addEventListener("input", updateFastSpeech2ControlOutputs);
+});
 renderTokenToolbars();
 
 loadPresets();
@@ -48,7 +54,12 @@ async function loadPresets() {
     fillSelect(document.querySelector("#fixed-emotion"), state.presets.emotions, "label");
     fillSelect(document.querySelector("#clone-emotion"), state.presets.emotions, "label");
     fillSelect(document.querySelector("#fixed-speed"), state.presets.speeds, "label");
+    fillSelect(document.querySelector("#compare-cosy-voice"), state.presets.voices, "label");
+    fillSelect(document.querySelector("#compare-fast-speaker"), state.presets.fastspeech2.speakers, "label", "speaker_id");
+    fillSelect(document.querySelector("#compare-emotion"), state.presets.emotions, "label");
+    fillSelect(document.querySelector("#compare-cosy-speed"), state.presets.speeds, "label");
     fillFixedTextFromSelectedSentence();
+    applyFastSpeech2EmotionPreset();
     status.textContent = "预设已加载";
   } catch (error) {
     status.textContent = "预设加载失败";
@@ -138,6 +149,101 @@ async function submitClone(event) {
     renderGenerationError("clone-output", error.message);
   } finally {
     setBusy(button, false);
+  }
+}
+
+function applyFastSpeech2EmotionPreset() {
+  if (!state.presets) return;
+  const emotionId = document.querySelector("#compare-emotion").value;
+  const controls = state.presets.fastspeech2.emotion_controls;
+  const preset = controls[emotionId] || controls.neutral;
+  document.querySelector("#compare-pitch").value = preset.pitch;
+  document.querySelector("#compare-energy").value = preset.energy;
+  document.querySelector("#compare-duration").value = preset.duration;
+  updateFastSpeech2ControlOutputs();
+}
+
+function updateFastSpeech2ControlOutputs() {
+  ["pitch", "energy", "duration"].forEach((name) => {
+    const value = Number(document.querySelector(`#compare-${name}`).value);
+    document.querySelector(`#compare-${name}-value`).textContent = value.toFixed(2);
+  });
+}
+
+async function submitCompare(event) {
+  event.preventDefault();
+  const button = event.submitter;
+  clearMessage("compare");
+  const text = document.querySelector("#compare-text").value.trim();
+  if (!text) {
+    showError("compare", "请输入要对比合成的文本。");
+    return;
+  }
+
+  setBusy(button, true);
+  try {
+    showCompareGenerating();
+    const data = await postJson("/api/tts/compare", {
+      text,
+      cosyvoice_voice_id: document.querySelector("#compare-cosy-voice").value,
+      fastspeech2_speaker_id: Number(document.querySelector("#compare-fast-speaker").value),
+      emotion_id: document.querySelector("#compare-emotion").value,
+      cosyvoice_speed_id: document.querySelector("#compare-cosy-speed").value,
+      pitch_control: Number(document.querySelector("#compare-pitch").value),
+      energy_control: Number(document.querySelector("#compare-energy").value),
+      duration_control: Number(document.querySelector("#compare-duration").value),
+    });
+    renderCompareResult(data);
+    if (data.cosyvoice) addResult("CosyVoice3 对比", data.cosyvoice);
+    if (data.fastspeech2) addResult("FastSpeech2 对比", data.fastspeech2);
+    showSuccess("compare", "对比生成完成。");
+  } catch (error) {
+    showError("compare", error.message);
+    renderGenerationError("compare-output", error.message);
+  } finally {
+    setBusy(button, false);
+  }
+}
+
+function showCompareGenerating() {
+  document.querySelector("#compare-output").innerHTML = `
+    <div class="generation-card" role="status" aria-live="polite">
+      <div class="generation-copy">
+        <strong>正在生成对比音频</strong>
+        <span>两个模型会依次推理，请稍等。</span>
+      </div>
+      <div class="generation-progress" aria-hidden="true"><span></span></div>
+    </div>
+  `;
+}
+
+function setText(selector, value) {
+  const node = document.querySelector(selector);
+  if (node) node.textContent = value;
+}
+
+function renderCompareResult(data) {
+  document.querySelector("#compare-output").innerHTML = `
+    <div class="compare-grid-output">
+      <div class="compare-model" id="compare-cosy-output"></div>
+      <div class="compare-model" id="compare-fast-output"></div>
+    </div>
+  `;
+  if (data.cosyvoice) {
+    renderAudio("compare-cosy-output", "CosyVoice3", data.cosyvoice.audio_url);
+  }
+  if (data.fastspeech2) {
+    renderAudio("compare-fast-output", "FastSpeech2", data.fastspeech2.audio_url);
+  } else {
+    document.querySelector("#compare-fast-output").innerHTML = `
+      <div class="generation-card error-card" role="alert">
+        <div class="generation-copy">
+          <strong>FastSpeech2 暂不可用</strong>
+          <span id="compare-fast-error"></span>
+        </div>
+      </div>
+    `;
+    setText("#compare-fast-error", data.fastspeech2_error || "模型文件未准备完成。");
   }
 }
 
@@ -233,10 +339,11 @@ function renderGenerationError(targetId, message) {
     <div class="generation-card error-card" role="alert">
       <div class="generation-copy">
         <strong>生成失败</strong>
-        <span>${message}</span>
+        <span id="${targetId}-error-message"></span>
       </div>
     </div>
   `;
+  setText(`#${targetId}-error-message`, message);
 }
 
 function renderTokenToolbars() {

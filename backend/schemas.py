@@ -19,3 +19,23 @@ class ControlRequest(BaseModel):
 class AudioResponse(BaseModel):
     audio_url: str
     filename: str
+
+
+class FastSpeech2Request(BaseModel):
+    text: str
+    speaker_id: int
+    emotion_id: str = "neutral"
+    pitch_control: float = 1.0
+    energy_control: float = 1.0
+    duration_control: float = 1.0
+
+
+class CompareRequest(BaseModel):
+    text: str
+    cosyvoice_voice_id: str
+    fastspeech2_speaker_id: int
+    emotion_id: str = "neutral"
+    cosyvoice_speed_id: str = "normal"
+    pitch_control: float = 1.0
+    energy_control: float = 1.0
+    duration_control: float = 1.0

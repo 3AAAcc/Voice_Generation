@@ -59,6 +59,26 @@ SPEEDS = [
     {"id": "very_fast", "label": "很快", "value": 1.5},
 ]
 
+FASTSPEECH2_SPEAKERS = [
+    {"id": "178", "label": "AISHELL3 SSB0080", "speaker_id": 178},
+    {"id": "169", "label": "AISHELL3 SSB0470", "speaker_id": 169},
+    {"id": "64", "label": "AISHELL3 SSB1593", "speaker_id": 64},
+    {"id": "133", "label": "AISHELL3 SSB0863", "speaker_id": 133},
+]
+
+FASTSPEECH2_EMOTION_CONTROLS = {
+    "neutral": {"pitch": 1.0, "energy": 1.0, "duration": 1.0},
+    "happy": {"pitch": 1.12, "energy": 1.10, "duration": 0.90},
+    "sad": {"pitch": 0.88, "energy": 0.82, "duration": 1.18},
+    "angry": {"pitch": 1.15, "energy": 1.30, "duration": 0.88},
+}
+
+FASTSPEECH2_CONTROL_RANGES = {
+    "pitch": {"min": 0.5, "max": 1.5, "step": 0.05, "default": 1.0},
+    "energy": {"min": 0.5, "max": 1.5, "step": 0.05, "default": 1.0},
+    "duration": {"min": 0.5, "max": 1.5, "step": 0.05, "default": 1.0},
+}
+
 
 def get_presets():
     return {
@@ -66,6 +86,11 @@ def get_presets():
         "sentences": SENTENCES,
         "emotions": EMOTIONS,
         "speeds": SPEEDS,
+        "fastspeech2": {
+            "speakers": FASTSPEECH2_SPEAKERS,
+            "emotion_controls": FASTSPEECH2_EMOTION_CONTROLS,
+            "control_ranges": FASTSPEECH2_CONTROL_RANGES,
+        },
     }
 
 

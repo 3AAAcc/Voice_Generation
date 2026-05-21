@@ -26,13 +26,35 @@ CosyVoice3 does not provide the old SFT built-in speaker list such as `中文男
 
 CosyVoice3 input text or prompt text must contain `<|endofprompt|>`. `backend/model_service.py` handles this with `COSYVOICE3_DEFAULT_PROMPT`, so do not remove that normalization unless the model path changes to a non-CosyVoice3 model.
 
+## FastSpeech2 Integration
+
+FastSpeech2 AISHELL3 is integrated as a second synthesis engine for comparison with CosyVoice3.
+
+Runtime code lives in:
+
+`third_party/FastSpeech2/`
+
+Model assets live in:
+
+`pretrained_models/FastSpeech2-AISHELL3/ckpt/600000.pth.tar`
+
+`pretrained_models/FastSpeech2-AISHELL3/hifigan/generator_universal.pth.tar`
+
+FastSpeech2 does not use natural-language emotion instructions. The frontend maps emotion labels to `pitch_control`, `energy_control`, and `duration_control`, and lets the user manually adjust those values. Direct FastSpeech2 API calls also apply the emotion preset when the caller leaves all three acoustic controls at `1.0`.
+
+FastSpeech2 dependencies added to `requirements.txt` include `g2p-en`, `pypinyin`, and `Unidecode`. If these are missing at runtime, FastSpeech2 endpoints should return a clear dependency error instead of preventing the CosyVoice3 backend from starting.
+
+The migrated FastSpeech2 runtime is intentionally pruned for inference only. Keep only runtime code, AISHELL3 config, `lexicon/pinyin-lexicon-r.txt`, and `preprocessed_data/AISHELL3/{stats.json,speakers.json}`. Do not re-add upstream demo audio, images, training scripts, raw datasets, train/val file lists, or non-AISHELL3 dataset folders.
+
 ## Expected Project Structure
 
 - `backend/`: FastAPI backend, model service, preset config, audio preprocessing.
 - `frontend/`: static HTML/CSS/JS workspace UI.
 - `cosyvoice/`: migrated CosyVoice runtime package.
+- `third_party/FastSpeech2/`: migrated FastSpeech2 runtime package.
 - `third_party/Matcha-TTS/`: required CosyVoice dependency.
 - `pretrained_models/Fun-CosyVoice3-0.5B/`: local model files.
+- `pretrained_models/FastSpeech2-AISHELL3/`: local FastSpeech2 AISHELL3 checkpoint and HiFi-GAN vocoder.
 - `assets/prompts/`: built-in reference voices and sample prompt audio.
 - `uploads/`: normalized user prompt audio files.
 - `outputs/`: generated WAV files served by the backend.
@@ -41,6 +63,7 @@ CosyVoice3 input text or prompt text must contain `<|endofprompt|>`. `backend/mo
 ## Current Feature Behavior
 
 - The main synthesis page combines built-in voice, fixed/custom text, emotion, and speed controls.
+- The model comparison page generates the same text through CosyVoice3 and FastSpeech2 for side-by-side playback.
 - Fixed sentence samples are stored in `backend/presets.py` as `SENTENCES`; this list includes Chinese and English examples.
 - Control-token shortcut buttons are rendered by `frontend/app.js` from `controlTokens`.
 - Voice cloning accepts a prompt audio upload plus optional prompt transcript.
@@ -64,7 +87,7 @@ CosyVoice3 input text or prompt text must contain `<|endofprompt|>`. `backend/mo
 - Do not import from `../CosyVoice-main` after migration is complete.
 - Do not copy the 9GB model again. Use `mv` for any remaining migration work.
 - Keep generated files in `uploads/` and `outputs/`.
-- Do not remove or edit the source repository unless the user explicitly asks.
+- Do not remove or edit sibling source repositories unless the user explicitly asks. `Voice_clone/` should be runnable without importing from sibling `FastSpeech2/` or `CosyVoice-main/`.
 - Treat model inference as expensive; load the model once at backend startup.
 - Use the existing `cosyvoice` conda environment for local commands.
 - Keep frontend changes compatible with plain browser JavaScript.
@@ -77,6 +100,8 @@ CosyVoice3 input text or prompt text must contain `<|endofprompt|>`. `backend/mo
 - `POST /api/tts/fixed`
 - `POST /api/tts/control`
 - `POST /api/tts/clone`
+- `POST /api/tts/fastspeech2`
+- `POST /api/tts/compare`
 - `GET /outputs/{filename}`
 - `GET /`
 
@@ -110,6 +135,7 @@ PYTHONPATH=. conda run -n cosyvoice python tests/test_model_service.py
 PYTHONPATH=. conda run -n cosyvoice python tests/test_api.py
 PYTHONPATH=. conda run -n cosyvoice python tests/test_audio.py
 PYTHONPATH=. conda run -n cosyvoice python tests/test_presets.py
+PYTHONPATH=. conda run -n cosyvoice python tests/test_fastspeech2_service.py
 ```
 
 ## UI Direction
@@ -118,6 +144,7 @@ Use the left-navigation workspace layout:
 
 - Voice Synthesis
 - Voice Clone
+- Model Compare
 - Results
 
 The current UI is a dark audio-workbench style interface with animated background layers, generated-state progress animation, and a custom audio player.
@@ -131,6 +158,8 @@ Avoid reintroducing nested cards, landing-page style hero layouts, or a separate
 - Do not pass user audio directly to the model without conversion/validation.
 - Do not auto-play every historical player when rendering results; this previously caused overlapping playback.
 - Do not add another model copy under this project unless the user explicitly approves storage use.
+- FastSpeech2 AISHELL3 requires `600000.pth.tar`; without it, comparison should still show the CosyVoice3 result and a clear FastSpeech2 missing-model error.
+- FastSpeech2 relative resources such as lexicons live under `third_party/FastSpeech2/`; keep preprocessing path handling inside `backend/fastspeech2_service.py`.
 - The conda environment is named `cosyvoice`; package installation is usually not needed.
 - `pytest` may not be installed. The test files are executable Python/Node scripts.
 
@@ -146,7 +175,9 @@ Most recent implementation details worth preserving:
 
 - `backend/audio.py`: ffmpeg conversion and 3-30 second validation.
 - `backend/model_service.py`: CosyVoice3 prompt marker handling and inference routing.
-- `backend/presets.py`: built-in voice prompts, bilingual sentence samples, emotions, and speeds.
-- `frontend/app.js`: token insertion, generation progress UI, result history, and single-audio playback logic.
+- `backend/fastspeech2_service.py`: FastSpeech2 AISHELL3 path validation, acoustic controls, text preprocessing, and inference routing.
+- `backend/presets.py`: built-in voice prompts, bilingual sentence samples, emotions, speeds, FastSpeech2 speakers, and acoustic-control presets.
+- `frontend/app.js`: token insertion, generation progress UI, model comparison flow, result history, and single-audio playback logic.
 - `tests/test_frontend_player.js`: regression coverage for no autoplay in history and pausing other audio before autoplay.
+- `tests/test_fastspeech2_service.py`: regression coverage for FastSpeech2 paths, controls, missing assets, preprocessing dependency behavior, and WAV output.
 ```

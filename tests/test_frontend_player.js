@@ -119,4 +119,12 @@ function testGeneratedPlayerAutoplaysAndPausesOtherAudio() {
 
 testPlayerDoesNotAutoplayWhenInitializedForHistory();
 testGeneratedPlayerAutoplaysAndPausesOtherAudio();
+
+function testComparisonFunctionsExist() {
+  assert(source.includes("function submitCompare"));
+  assert(source.includes("function applyFastSpeech2EmotionPreset"));
+  assert(source.includes("function renderCompareResult"));
+}
+
+testComparisonFunctionsExist();
 console.log("frontend player tests passed");

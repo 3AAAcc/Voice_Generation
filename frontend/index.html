@@ -31,6 +31,7 @@
       <nav class="nav-list" aria-label="功能导航">
         <button class="nav-item active" data-panel="fixed">语音合成</button>
         <button class="nav-item" data-panel="clone">音色克隆</button>
+        <button class="nav-item" data-panel="compare">模型对比</button>
         <button class="nav-item" data-panel="results">生成结果</button>
       </nav>
     </aside>
@@ -115,6 +116,53 @@
         </form>
         <div class="message" id="clone-message"></div>
         <div class="audio-card" id="clone-output"></div>
+      </section>
+
+      <section class="panel" id="panel-compare">
+        <div class="panel-heading">
+          <h2>模型对比</h2>
+          <p>输入同一句中文文本，对比 CosyVoice3 指令式合成与 FastSpeech2 声学参数控制合成。</p>
+        </div>
+        <form class="form-grid compare-grid" id="compare-form">
+          <label class="wide">
+            <span>对比文本</span>
+            <textarea id="compare-text" rows="4">大家好，欢迎使用语音合成模型对比系统。</textarea>
+          </label>
+          <label>
+            <span>CosyVoice3 音色</span>
+            <select id="compare-cosy-voice"></select>
+          </label>
+          <label>
+            <span>FastSpeech2 说话人</span>
+            <select id="compare-fast-speaker"></select>
+          </label>
+          <label>
+            <span>情绪</span>
+            <select id="compare-emotion"></select>
+          </label>
+          <label>
+            <span>CosyVoice3 语速</span>
+            <select id="compare-cosy-speed"></select>
+          </label>
+          <label>
+            <span>FastSpeech2 音高</span>
+            <input id="compare-pitch" type="range" min="0.5" max="1.5" step="0.05" value="1">
+            <output id="compare-pitch-value">1.00</output>
+          </label>
+          <label>
+            <span>FastSpeech2 能量</span>
+            <input id="compare-energy" type="range" min="0.5" max="1.5" step="0.05" value="1">
+            <output id="compare-energy-value">1.00</output>
+          </label>
+          <label>
+            <span>FastSpeech2 时长</span>
+            <input id="compare-duration" type="range" min="0.5" max="1.5" step="0.05" value="1">
+            <output id="compare-duration-value">1.00</output>
+          </label>
+          <button class="primary-action" type="submit">生成对比音频</button>
+        </form>
+        <div class="message" id="compare-message"></div>
+        <div class="compare-output" id="compare-output"></div>
       </section>
 
       <section class="panel" id="panel-results">

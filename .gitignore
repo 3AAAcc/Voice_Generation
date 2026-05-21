@@ -3,6 +3,8 @@
 .AppleDouble
 .LSOverride
 ._*
+.vscode/
+.idea/
 
 # Python caches
 __pycache__/
@@ -39,14 +41,38 @@ uploads/*
 outputs/*
 !outputs/.gitkeep
 
+# Datasets and training corpora
+data/
+dataset/
+datasets/
+raw_data/
+corpus/
+corpora/
+TextGrid/
+*.TextGrid
+
 # Local model weights and large inference assets
 pretrained_models/
 *.pt
 *.pth
+*.pth.tar
+*.pth.tar.zip
 *.ckpt
 *.safetensors
 *.onnx
 *.bin
+
+# Migrated third-party training/demo artifacts that are not needed at runtime
+third_party/FastSpeech2/demo/
+third_party/FastSpeech2/output/
+third_party/FastSpeech2/raw_data/
+third_party/FastSpeech2/preprocessed_data/*
+!third_party/FastSpeech2/preprocessed_data/
+!third_party/FastSpeech2/preprocessed_data/AISHELL3/
+!third_party/FastSpeech2/preprocessed_data/AISHELL3/stats.json
+!third_party/FastSpeech2/preprocessed_data/AISHELL3/speakers.json
+third_party/FastSpeech2/hifigan/*.pth.tar
+third_party/FastSpeech2/hifigan/*.pth.tar.zip
 
 # Large media artifacts generated during experiments
 *.wav
